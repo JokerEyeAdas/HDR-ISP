@@ -4,6 +4,11 @@
 
 **![公众号](wechat.png)**
 
+
+# 默认Pipeline
+
+![Pipeline](pipeline.png)
+
 # 支持的ISP模块列表
 
 - Raw Domain
