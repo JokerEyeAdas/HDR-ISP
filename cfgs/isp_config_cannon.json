@@ -1,0 +1,121 @@
+{
+    "raw_file":"./data/connan_raw14.raw",
+    "out_file_path":"./",
+    "info": {
+        "sensor_name": "cannon",
+        "cfa": "RGGB",
+        "data_type": "RAW16",
+        "bpp": 16,
+        "max_bit": 14,
+        "width": 6080,
+        "height": 4044,
+        "mipi_packed": 0
+    },
+    "pipe":"unpack|depwl|blc|wbgain|demoasic|ccm|ltm|rgbgamma|rgb2yuv|ygamma|contrast|sharpen|saturation|yuv2rgb",
+    "blc": 0,
+    "lsc": {
+        "mesh_width": 10,
+        "mesh_height": 9,
+        "data": [
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        ]
+    },
+    "depwl": {
+        "pedestal":0,
+        "pwl_nums": 2,
+		"out_bit":14,
+        "pwl_x": [0, 16384],
+        "pwl_y": [0, 16384],
+        "slope": [0, 1]
+    },
+    "wb_gain": {
+        "enable":true,
+        "d50_gain": [ 2.626, 1, 1, 1.263672],
+        "d65_gain": [ 2.626, 1, 1, 1.263672],
+        "f11_gain": [ 2.626, 1, 1, 1.263672],
+        "f12_gain": [ 2.626, 1, 1, 1.263672]
+    },
+    "ccm": {
+        "enable":true,
+        "out_bit":14,
+        "d50_ccm": [
+            [1, 0, 0],
+            [0, 1, 0],
+            [0, 0, 1]
+        ],
+        "d65_ccm": [
+            [1, 0, 0],
+            [0, 1, 0],
+            [0, 0, 1]
+        ],
+        "f11_ccm": [
+            [1, 0, 0],
+            [0, 1, 0],
+            [0, 0, 1]
+        ],
+        "f12_ccm": [
+            [1, 0, 0],
+            [0, 1, 0],
+            [0, 0, 1]
+        ]
+    },
+    "ltm":{
+		"in_bit":14,
+		"out_bit":10,
+		"constrast":136
+	},
+	"rgbgamma": {
+        "enable":true,
+		"in_bit":10,
+		"out_bit":8,
+		"gammalut_nums":11,
+		"gammalut": [
+			0, 
+			0.3504950718773984 ,
+			0.48243595264750255 ,
+			0.57750428843709 ,
+			0.6596458942714417 ,
+			0.731034378464739 ,
+			0.7925580792857235 ,
+			0.8509817015104557 ,
+			0.9029435754464383 ,
+			0.9534255851019492 ,
+			1.0
+		],
+		"linear_back":[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+	},
+    "rgb2yuv":{
+        "offset":128
+    },
+    "yuv2rgb":{
+        "offset":128
+    },
+	"ygamma": {
+        "enable":true,
+		"in_bit":8,
+		"out_bit":8,
+		"gammalut_nums":11,
+        "gammalut":[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+		"gammalut_2": [0, 0.2, 0.35, 0.45, 0.485, 0.5, 0.515, 0.55, 0.65, 0.8, 1.0]
+	},
+	"saturation": {
+        "enable":true,
+		"rotate_angle":-5
+	},
+    "contrast": {
+        "enable":true,
+        "ratio": 0.1
+    },
+    "sharpen": {
+        "enable":true,
+        "ratio": 0.6
+    }
+}

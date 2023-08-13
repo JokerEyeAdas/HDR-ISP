@@ -1,8 +1,12 @@
 # Image Signal Process For HDR CMOS Image Sensor
 
-**知乎主页：[ADAS之眼](https://www.zhihu.com/people/fen-shi-qing-nian-29) | 个人网站：[ADAS之眼](https://jokereyeadas.github.io/) | 公众号：**
+**[中文README](docs/readme_ch.md)**
 
-**![公众号](docs/wechat.png)**
+-----
+
+**Zhihu：[EYES OF ADAS](https://www.zhihu.com/people/fen-shi-qing-nian-29) | Blog：[EYES OF ADAS](https://jokereyeadas.github.io/) | WeChat：**
+
+**![WeChat](docs/wechat.png)**
 
 
 # Support ISP Module Lists
@@ -29,7 +33,7 @@
 - [x] Saturation: chrome saturation
 - [x] Yuv2Rgb: yuv domain to rgb domain
 
-# How To Build
+# How To Build and Run
 
 ## Linux
 ```bash
@@ -55,33 +59,49 @@ code HDRImageSignalProcess
 #compiler choose xxx-amd64
 #build all
 ```
+## How To Run
+
+```bash
+cd build
+./HDR_ISP ./cfgs/isp_config_cannon.josn
+```
 
 # Result
 
-## Final Result
+## ISP Result
 
-|RAW Image|ISP Result(Ours)|FastOpenISP Result|
-|-------|-------|-------|
-|![raw](/docs/ISP/connan_raw14.png)|![ISP](docs/ISP/isp_result.png)|![Fast ISP](docs/ISP/color_checker.png)|
+|Notes|Image|
+|-------|-------|
+|Raw|![raw](/docs/ISP/connan_raw14.png)|
+|ISP Result(Ours)|![ISP](docs/ISP/isp_result.png)|
+|FastOpenISP Result|![Fast ISP](docs/ISP/color_checker.png)|
 
 ------
 
-|Compare Item|Our ISP|Notes|FastOpenISP|Notes|
-|-------|-------|-------|-------|-------|
-|Detail|![Our Detail](docs/ISP/our_detail.png)|Detail is Clear|![Open Isp](docs/ISP/fast_detail.png)|Color Banding and Detail lost|
+## Detail Compare
 
+|ISP|Image|Notes|
+|-------|-------|-------|
+|Ours|![Our Detail](docs/ISP/our_detail.png)|Detail and boundaries is clear|
+|Fast Open Isp|![Open Isp](docs/ISP/fast_detail.png)|Color banding and detail lost|
+|Ours|![Our Detail](docs/ISP/our_sharpen.png)|Detail and boundaries is clear|
+|Fast Open Isp|![Open Isp](docs/ISP/others_sharpen.png)|Color banding and detail lost|
+# Project Support
 
-# Project Support(项目支持)
+- Thanks for your support, we hope that our project can help your work
 
 ![Appreciation Code](docs/AppreciationCode.png)
-
 
 # Reference Repo
 
 Thanks for the following code repository!
 
-|Index|Repo|Notes|
-|-----|-----|-----|
-|1|[fast-openIsp](https://github.com/QiuJueqin/fast-openISP)|open isp 快速版本|
-|2|[ISP Lab](https://github.com/yuqing-liu-dut/ISPLab)|Isp realized by c++|
+|Index|Repo|Language|Notes|
+|-----|-----|------|-----|
+|1|[fast-openIsp](https://github.com/QiuJueqin/fast-openISP)|Python|open isp speed up verison in python|
+|2|[ISP Lab](https://github.com/yuqing-liu-dut/ISPLab)|C++|Isp realized by c++|
+|3|[xk-ISP](https://github.com/openasic-org/xkISP)|C++|C++ ISP For HLS on FPGA|
 
+-----
+
+**Eyes of Adas Copyright Reserved @2023**
