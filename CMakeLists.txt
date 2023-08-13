@@ -1,8 +1,11 @@
 cmake_minimum_required (VERSION 3.0)
 
-set(OpenCV_DIR "thirdparty/opencv") 
-
 project(HDR_ISP)
+
+if (${CMAKE_SYSTEM_NAME} STREQUAL  "Windows")
+    message(STATUS "set opencv dir to thirdparty")
+    set(OpenCV_DIR "thirdparty/opencv") 
+endif()
 
 find_package(OpenCV REQUIRED)
 
