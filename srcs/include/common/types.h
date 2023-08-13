@@ -94,8 +94,8 @@ struct ImageMem
         void *v;
     } yuv_f32_i, yuv_f32_o, yuv_u8_i, yuv_u8_o;
 
-    //ltm
-    //void *y_log_f32_;
+    // ltm
+    // void *y_log_f32_;
 };
 
 static constexpr int kCfaNums = static_cast<int>(CfaTypes::CFA_MAX);
@@ -115,12 +115,11 @@ static constexpr PixelCfaTypes kPixelCfaLut[kCfaNums][2][2] = {
     {
         {PixelCfaTypes::GB, PixelCfaTypes::B},
         {PixelCfaTypes::R, PixelCfaTypes::GR},
-    }
-};
+    }};
 /**
  * @brief for depwl use
  */
-#define MAX_PWL_NUMS   24
+#define MAX_PWL_NUMS 24
 #define MAX_GAMMA_NUMS 21
 struct DePwlPrms
 {
@@ -132,30 +131,26 @@ struct DePwlPrms
     int slope[MAX_PWL_NUMS];
 };
 
-
 struct CcmPrms
 {
     float ccm[3][3] = {
-        { 1,	0,		0.0  },
-	    { 0,	1.,		0 },
-	    { 0,	0,		1.  }
-    };
+        {1, 0, 0},
+        {0, 1, 0},
+        {0, 0, 1}};
 };
-
 
 struct WbGain
 {
-    //R G G B
+    // R G G B
     float d65_gain[4];
     float d50_gain[4];
     float f11_gain[4];
     float f12_gain[4];
 };
 
-
 struct GammmaCurve
 {
-    //0-1 
+    // 0-1
     int nums;
     int in_bits;
     int out_bits;
@@ -165,14 +160,14 @@ struct GammmaCurve
 static constexpr int kMaxLtmKenerlSize = 30;
 struct LtmPrms
 {
-    int   kernel_size = 9;
+    int kernel_size = 9;
     float gauss_kernel[kMaxLtmKenerlSize][kMaxLtmKenerlSize];
     float range_kernel[kMaxLtmKenerlSize][kMaxLtmKenerlSize];
     float range_sigma = 0.4f;
     float space_sigma = 10;
     float constrast = 136;
-    int   in_bits = 10;
-    int   out_bits = 8;
+    int in_bits = 10;
+    int out_bits = 8;
 };
 
 struct SaturationPrms
@@ -182,15 +177,12 @@ struct SaturationPrms
 
 struct ContrastPrms
 {
-    float ratio;  
+    float ratio;
 };
 
 struct SharpenPrms
 {
-    float ratio;  
+    float ratio;
 };
-
-
-
 
 #endif

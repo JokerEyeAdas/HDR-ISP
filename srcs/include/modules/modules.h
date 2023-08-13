@@ -5,6 +5,7 @@
 #include <functional>
 #include "common/frame.h"
 #include "common/common.h"
+#include <cmath>
 
 struct IspPrms
 {

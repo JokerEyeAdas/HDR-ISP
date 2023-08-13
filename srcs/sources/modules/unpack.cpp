@@ -49,7 +49,8 @@ static void UnpackRaw12ToRaw16(uint8_t *raw, uint16_t *unpack_raw16, int width, 
     uint8_t *raw12_packed_in = raw;
     uint16_t *raw16_unpacked_out = unpack_raw16;
 
-    for (int p1 = 0, p2 = 0; p2 < width * height; p1 += 3, p2 += 2) {
+    for (int p1 = 0, p2 = 0; p2 < width * height; p1 += 3, p2 += 2)
+    {
         raw12_packed_in = raw + p1;
         raw16_unpacked_out = unpack_raw16 + p2;
         raw16_unpacked_out[0] = (raw12_packed_in[0] << 4) | ((raw12_packed_in[3] >> 4) & 0x0f);
@@ -104,10 +105,9 @@ static int MipiDataUnpack(Frame *frame, const IspPrms *prms)
 void RegisterUnpackMod()
 {
     IspModule mod;
-    
+
     mod.in_type = DataPtrTypes::TYPE_UINT8;
     mod.out_type = DataPtrTypes::TYPE_UINT16;
-
 
     mod.in_domain = ColorDomains::RAW;
     mod.out_domain = ColorDomains::RAW;

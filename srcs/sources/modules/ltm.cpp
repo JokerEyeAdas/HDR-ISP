@@ -84,37 +84,58 @@ static void BilateralFilter(float *ylog_i, float *bp_log, int kernel_size,
                     int idx = iw + kw;
                     int idy = ih + kh;
 
-                    if ((idx < 0) && (idy < 0)) {
+                    if ((idx < 0) && (idy < 0))
+                    {
                         y_gray = ylog_i[0];
-                    } else if ((idx > 0) && (idy < 0)) {
-                        if (idx < width) {
+                    }
+                    else if ((idx > 0) && (idy < 0))
+                    {
+                        if (idx < width)
+                        {
                             y_gray = ylog_i[idx];
-                        } else {
+                        }
+                        else
+                        {
                             y_gray = ylog_i[width - 1];
                         }
-                    } else if ((idx < 0) && (idy > 0)) {
-                        if (idy < height) {
+                    }
+                    else if ((idx < 0) && (idy > 0))
+                    {
+                        if (idy < height)
+                        {
                             y_gray = ylog_i[idy * width];
-                        } else {
+                        }
+                        else
+                        {
                             y_gray = ylog_i[(height - 1) * width];
                         }
-                    } else if ((idx >= 0) && (idy >= 0)) {
-                        if ((idx < width) && (idy < height)) {
+                    }
+                    else if ((idx >= 0) && (idy >= 0))
+                    {
+                        if ((idx < width) && (idy < height))
+                        {
                             y_gray = ylog_i[idx + idy * width];
-                        } else if ((idx >= width) && (idy < height)) {
+                        }
+                        else if ((idx >= width) && (idy < height))
+                        {
                             y_gray = ylog_i[(width - 1) + idy * width];
-                        } else if ((idx >= width) && (idy >= height)) {
+                        }
+                        else if ((idx >= width) && (idy >= height))
+                        {
                             y_gray = ylog_i[height * width - 1];
-                        } else if ((idx < width) && (idy >= height)) {
-                            y_gray = ylog_i[(height -1) * width + idx];
-                        } else {
+                        }
+                        else if ((idx < width) && (idy >= height))
+                        {
+                            y_gray = ylog_i[(height - 1) * width + idx];
+                        }
+                        else
+                        {
                             LOG(ERROR) << "error padding";
                             y_gray = 0;
                         }
                     }
 
-                    float exp_scale = (-0.5 * (y_gray -  ylog_i[pixel_id])
-                                     * (y_gray -  ylog_i[pixel_id])) /sigma_2;
+                    float exp_scale = (-0.5 * (y_gray - ylog_i[pixel_id]) * (y_gray - ylog_i[pixel_id])) / sigma_2;
                     g_range_kernel[kw + center][kh + center] = exp(exp_scale);
 
                     g_final_kernel[kw + center][kh + center] = g_guass_kernel[kw + center][kh + center] * g_range_kernel[kw + center][kh + center];
@@ -187,8 +208,8 @@ static int Ltm(Frame *frame, const IspPrms *isp_prm)
 
     float ratio = 0;
     int max_out_val = (1 << ltm_prms.out_bits) - 1;
-    //LOG(INFO) << "ltm ratio " << scale_factor;
-    // std::cout << "max_scale_val " << max_scale_val << "scale_factor " << scale_factor << "max log base " << max_log_base << " min "<< min_log_base<< "max_out_val " << max_out_val;
+    // LOG(INFO) << "ltm ratio " << scale_factor;
+    //  std::cout << "max_scale_val " << max_scale_val << "scale_factor " << scale_factor << "max log base " << max_log_base << " min "<< min_log_base<< "max_out_val " << max_out_val;
     FOR_ITER(ih, frame->info.height)
     {
         FOR_ITER(iw, frame->info.width)
@@ -203,7 +224,7 @@ static int Ltm(Frame *frame, const IspPrms *isp_prm)
             else
                 ratio = 0;
             // std::cout << "ratio " << ratio << " | "<< funstion_val[pixel_idx] <<  " | "<< y_val[pixel_idx]  << "| " << bp_log[pixel_idx] << "|" << dp_log[pixel_idx]<< "\n";
-            //LOG(INFO) << "ltm ratio " << ratio;
+            // LOG(INFO) << "ltm ratio " << ratio;
             bgr_in[3 * pixel_idx + 0] = static_cast<int32_t>(bgr_in[3 * pixel_idx + 0] * ratio);
             bgr_in[3 * pixel_idx + 1] = static_cast<int32_t>(bgr_in[3 * pixel_idx + 1] * ratio);
             bgr_in[3 * pixel_idx + 2] = static_cast<int32_t>(bgr_in[3 * pixel_idx + 2] * ratio);

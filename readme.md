@@ -1,6 +1,6 @@
 # Image Signal Process For HDR CMOS Image Sensor
 
-**[中文README](docs/readme_ch.md)**
+**[CHINESE README](docs/readme_ch.md)**
 
 -----
 
@@ -36,12 +36,21 @@
 # How To Build and Run
 
 ## Linux
+**Develop Env :** 
+```bash
+#dependencies install(cmake and opencv)
+sudo apt update
+sudo apt install libopencv-dev python3-opencv cmake
+```
+
+**Build**
+
 ```bash
 git clone https://github.com/JokerEyeAdas/HDRImageSignalProcess
 cd HDRImageSignalProcess/
 mkdir build
 cmake ..
-make
+make -j12
 ```
 ## Windows
 
@@ -51,6 +60,8 @@ make
 - vs2019 c++ gen tool
 
 ![build tool](docs/compile.png) 
+
+**Build**
 
 ```bash
 git clone https://github.com/JokerEyeAdas/HDRImageSignalProcess
@@ -63,7 +74,11 @@ code HDRImageSignalProcess
 
 ```bash
 cd build
-./HDR_ISP ./cfgs/isp_config_cannon.josn
+#cp cfgs and data
+cp -r ../data/ ./
+cp -r ../cfgs/ ./
+#run isp
+./HDR_ISP ./cfgs/isp_config_cannon.json
 ```
 
 # Result

@@ -27,11 +27,6 @@ static int Depwl(Frame *frame, const IspPrms *isp_prm)
 
     const DePwlPrms *pwl_prm = &(isp_prm->depwl_prm);
 
-    int max = 0;
-    //for(int index = 0; index < pwl_prm->pwl_nums; ++index){
-    //    std::cout << "x " << pwl_prm->x_cood[index] << " y " << pwl_prm->y_cood[index] << " sl " << pwl_prm->slope[index];
-    //}
-
     FOR_ITER(h, frame->info.height)
     {
         FOR_ITER(w, frame->info.width)
@@ -50,24 +45,12 @@ static int Depwl(Frame *frame, const IspPrms *isp_prm)
             //y = slope * (Xn - Xn-1) + Yn-1
             raw32_out[pixel_idx] = (raw16_in[pixel_idx] - pwl_prm->x_cood[pwl_idx - 1]) * pwl_prm->slope[pwl_idx] \
                                  + pwl_prm->y_cood[pwl_idx - 1];
-            //if (pixel_idx == 1990) {
-            //    LOG(DEBUG) << pixel_idx << "|" << std::to_string(raw32_out[pixel_idx]) << "|" <<  pwl_prm->x_cood[pwl_idx - 1] << "|" << raw16_in[pixel_idx];
-            //}
-            //if (raw32_out[pixel_idx] > max) {
-            //    max = raw32_out[pixel_idx];
-            //}
+
             ClipMinMax(raw32_out[pixel_idx], isp_prm->info.max_val, 0);
-            //if ((w < 2) && (h < 2)) {
-            //    printf("[%d][%d]%d\n", w,h,raw32_out[pixel_idx]);
-            //}
         }
     }
-    //std::cout << frame->data.raw_s32_o << " | " << frame->data.raw_s32_i << "\r\n";
-    //std::cout << "max " << max  << "\n";
+
     SwapMem<void>(frame->data.raw_s32_o, frame->data.raw_s32_i);
-
-    //std::cout << frame->data.raw_s32_o << " | " << frame->data.raw_s32_i << "\r\n";
-
 
     return 0;
 }

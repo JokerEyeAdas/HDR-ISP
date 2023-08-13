@@ -8,27 +8,27 @@
 #define GET_PIXEL_INDEX(iw, ih, width) ((ih) * (width) + (iw))
 
 template <class _T>
-static inline void SwapMem(_T * &a, _T * &b)
+static inline void SwapMem(_T *&a, _T *&b)
 {
-    _T* tmp = b;
+    _T *tmp = b;
     b = a;
     a = tmp;
 }
 
-
 template <class _T>
-static inline void ClipMinMax(_T& a, _T max, _T min)
+static inline void ClipMinMax(_T &a, _T max, _T min)
 {
-    if (a > max) {
+    if (a > max)
+    {
         a = max;
-    } else if (a < min) {
+    }
+    else if (a < min)
+    {
         a = min;
     }
 }
 
-
-size_t ReadFileToMem(std::string file_name, void* mem, int size);
-size_t WriteMemToFile(std::string file_name, void* mem, int size);
-
+size_t ReadFileToMem(std::string file_name, void *mem, int size);
+size_t WriteMemToFile(std::string file_name, void *mem, int size);
 
 #endif /* ISP_COMMON_H */

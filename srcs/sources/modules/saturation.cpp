@@ -1,12 +1,12 @@
 /**
  * @file saturation.cpp
  * @author joker.mao (joker_mao@163.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2023-07-27
- * 
+ *
  * Copyright (c) of ADAS_EYES 2023
- * 
+ *
  */
 
 #include "modules/modules.h"
@@ -22,11 +22,11 @@ static int Saturation(Frame *frame, const IspPrms *isp_prm)
     }
     int pixel_idx = 0;
 
-    uint8_t* u_i = reinterpret_cast<uint8_t *>(frame->data.yuv_u8_i.u);
-    uint8_t* v_i = reinterpret_cast<uint8_t *>(frame->data.yuv_u8_i.v);
+    uint8_t *u_i = reinterpret_cast<uint8_t *>(frame->data.yuv_u8_i.u);
+    uint8_t *v_i = reinterpret_cast<uint8_t *>(frame->data.yuv_u8_i.v);
 
-    uint8_t* u_o = reinterpret_cast<uint8_t *>(frame->data.yuv_u8_o.u);
-    uint8_t* v_o = reinterpret_cast<uint8_t *>(frame->data.yuv_u8_o.v);
+    uint8_t *u_o = reinterpret_cast<uint8_t *>(frame->data.yuv_u8_o.u);
+    uint8_t *v_o = reinterpret_cast<uint8_t *>(frame->data.yuv_u8_o.v);
 
     float angle = 3.1415926f * isp_prm->sat_prms.rotate_angle / 180.0f;
     float sin_val = sin(angle);
@@ -37,7 +37,7 @@ static int Saturation(Frame *frame, const IspPrms *isp_prm)
         FOR_ITER(iw, frame->info.width)
         {
             int pixel_idx = GET_PIXEL_INDEX(iw, ih, frame->info.width);
-            
+
             int u_tmp = u_i[pixel_idx] - 128;
             int v_tmp = v_i[pixel_idx] - 128;
 
@@ -49,13 +49,12 @@ static int Saturation(Frame *frame, const IspPrms *isp_prm)
 
             u_o[pixel_idx] = u;
             v_o[pixel_idx] = v;
-
         }
     }
 
     SwapMem<void>(frame->data.yuv_u8_o.u, frame->data.yuv_u8_i.u);
     SwapMem<void>(frame->data.yuv_u8_o.v, frame->data.yuv_u8_i.v);
-    
+
     return 0;
 }
 

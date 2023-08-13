@@ -1,12 +1,12 @@
 /**
  * @file wb_gain.cpp
  * @author joker.mao (joker_mao@163.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2023-07-27
- * 
+ *
  * Copyright (c) of ADAS_EYES 2023
- * 
+ *
  */
 
 #include "modules/modules.h"
@@ -23,25 +23,24 @@ static int WbGain(Frame *frame, const IspPrms *isp_prm)
     int pixel_idx = 0;
     int pwl_idx = 0;
 
-    int32_t* raw32_in = reinterpret_cast<int32_t *>(frame->data.raw_s32_i);
-    int32_t* raw32_out = reinterpret_cast<int32_t *>(frame->data.raw_s32_o);
+    int32_t *raw32_in = reinterpret_cast<int32_t *>(frame->data.raw_s32_i);
+    int32_t *raw32_out = reinterpret_cast<int32_t *>(frame->data.raw_s32_o);
 
-    //default d65
-    float r_gain  = isp_prm->wb_gains.d65_gain[0];
+    // default d65
+    float r_gain = isp_prm->wb_gains.d65_gain[0];
     float gr_gain = isp_prm->wb_gains.d65_gain[1];
     float gb_gain = isp_prm->wb_gains.d65_gain[2];
-    float b_gain  = isp_prm->wb_gains.d65_gain[3];
-
+    float b_gain = isp_prm->wb_gains.d65_gain[3];
 
     FOR_ITER(h, frame->info.height)
     {
         FOR_ITER(w, frame->info.width)
         {
             pixel_idx = h * frame->info.width + w;
-            
+
             int cfa_id = static_cast<int>(frame->info.cfa);
             switch (kPixelCfaLut[cfa_id][w % 2][h % 2])
-	        {
+            {
             case PixelCfaTypes::R:
                 raw32_out[pixel_idx] = (int32_t)(raw32_in[pixel_idx] * r_gain);
                 break;
@@ -53,7 +52,7 @@ static int WbGain(Frame *frame, const IspPrms *isp_prm)
                 break;
             case PixelCfaTypes::B:
                 raw32_out[pixel_idx] = (int32_t)(raw32_in[pixel_idx] * b_gain);
-                break;  
+                break;
             default:
                 break;
             }
@@ -63,7 +62,7 @@ static int WbGain(Frame *frame, const IspPrms *isp_prm)
     }
 
     SwapMem<void>(frame->data.raw_s32_i, frame->data.raw_s32_o);
-    
+
     return 0;
 }
 

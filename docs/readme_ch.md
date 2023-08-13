@@ -31,21 +31,32 @@
 # 如何编译与运行
 
 ## Linux系统
+**开发环境:** 
+```bash
+#dependencies install(cmake and opencv)
+sudo apt update
+sudo apt install libopencv-dev python3-opencv cmake
+```
+
+**编译**
+
 ```bash
 git clone https://github.com/JokerEyeAdas/HDRImageSignalProcess
 cd HDRImageSignalProcess/
 mkdir build
 cmake ..
-make
+make -j12
 ```
 ## Windows系统
 
-**Develop Env (x64):** 
+**开发环境(x64):** 
 - vs code
 - cmake
 - vs2019 c++ gen tool
 
 ![build tool](compile.png) 
+
+**编译**
 
 ```bash
 git clone https://github.com/JokerEyeAdas/HDRImageSignalProcess
@@ -59,7 +70,11 @@ code HDRImageSignalProcess
 
 ```bash
 cd build
-./HDR_ISP ./cfgs/isp_config_cannon.josn
+#cp cfgs and data
+cp -r ../data/ ./
+cp -r ../cfgs/ ./
+#run isp
+./HDR_ISP ./cfgs/isp_config_cannon.json
 ```
 
 

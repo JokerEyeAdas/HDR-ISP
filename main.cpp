@@ -25,7 +25,8 @@ int main(int argc, char *argv[])
 {
     LOG(INFO) << "APP Start Running";
 
-    if (argc < 2) {
+    if (argc < 2)
+    {
         LOG(ERROR) << "usage :\n\t ./app isp_cfg.json\n";
         return 0;
     }
@@ -36,8 +37,9 @@ int main(int argc, char *argv[])
     IspPrms isp_prms;
 
     auto ret = ParseCfgFile(argv[1], isp_prms);
-    if (ret) {
-        LOG(ERROR) << argv[1] <<  " parse failed\n";
+    if (ret)
+    {
+        LOG(ERROR) << argv[1] << " parse failed\n";
         return -1;
     }
 
@@ -56,11 +58,13 @@ int main(int argc, char *argv[])
     if (!ret)
     {
         cv::Mat isp_result(height, width, CV_8UC3, frame.data.bgr_u8_o);
-        cv::imwrite(isp_prms.out_file_path  + "isp_result.png", isp_result);
+        cv::imwrite(isp_prms.out_file_path + "isp_result.png", isp_result);
 
-        WriteMemToFile(isp_prms.out_file_path  + "isp_result_bgr.raw", frame.data.bgr_u8_o, width * height * 3);
+        WriteMemToFile(isp_prms.out_file_path + "isp_result_bgr.raw", frame.data.bgr_u8_o, width * height * 3);
         LOG(INFO) << "APP Common Exit";
-    } else {
+    }
+    else
+    {
         LOG(ERROR) << "Pipe run Error Exit";
     }
     return 0;
