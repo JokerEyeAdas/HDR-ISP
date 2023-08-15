@@ -10,16 +10,16 @@
  */
 
 #include "easylogging++.h"
-
+#include "EasyBMP.h"
 #include "common/pipeline.h"
 
-#include <opencv2/opencv.hpp>
-#include <opencv2/core.hpp>
+//#include <opencv2/opencv.hpp>
+//#include <opencv2/core.hpp>
 
 INITIALIZE_EASYLOGGINGPP
 
-extern int ParseCfgFile(const std::string cfg_file_path, IspPrms &isp_prm);
-IspPipeline pipeline;
+extern int ParseIspCfgFile(const std::string cfg_file_path, IspPrms &isp_prm);
+
 
 int main(int argc, char *argv[])
 {
@@ -34,9 +34,10 @@ int main(int argc, char *argv[])
     IspInit();
     ShowAllIspModules();
 
+    IspPipeline pipeline;
     IspPrms isp_prms;
 
-    auto ret = ParseCfgFile(argv[1], isp_prms);
+    auto ret = ParseIspCfgFile(argv[1], isp_prms);
     if (ret)
     {
         LOG(ERROR) << argv[1] << " parse failed\n";
@@ -57,9 +58,9 @@ int main(int argc, char *argv[])
 
     if (!ret)
     {
-        cv::Mat isp_result(height, width, CV_8UC3, frame.data.bgr_u8_o);
-        cv::imwrite(isp_prms.out_file_path + "isp_result.png", isp_result);
-
+        //cv::Mat isp_result(height, width, CV_8UC3, frame.data.bgr_u8_o);
+        //cv::imwrite(isp_prms.out_file_path + "isp_result.png", isp_result);
+        WriteBgrMemToBmp((isp_prms.out_file_path + "isp_result.bmp").c_str(), (char *)frame.data.bgr_u8_o, width, height, 24);
         WriteMemToFile(isp_prms.out_file_path + "isp_result_bgr.raw", frame.data.bgr_u8_o, width * height * 3);
         LOG(INFO) << "APP Common Exit";
     }

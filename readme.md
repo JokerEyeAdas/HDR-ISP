@@ -1,12 +1,17 @@
 # Image Signal Process For HDR CMOS Image Sensor
 
-**[CHINESE README](docs/readme_ch.md)**
+**[中文README](docs/readme_ch.md)**
 
------
 
-**Zhihu：[EYES OF ADAS](https://www.zhihu.com/people/fen-shi-qing-nian-29) | Blog：[EYES OF ADAS](https://jokereyeadas.github.io/) | WeChat：**
+# Project Description
 
-**![WeChat](docs/wechat.png)**
+
+**An ISP pipeline written in C++ for HDR cameras**
+
+- The ISP modules are written in C style
+- Without other library dependencies
+- Can be deployed on HDR-ISP of various embedded platforms
+- Customize your pipeline through json configuration
 
 # Default Pipeline
 
@@ -42,7 +47,7 @@
 ```bash
 #dependencies install(cmake and opencv)
 sudo apt update
-sudo apt install libopencv-dev python3-opencv cmake
+sudo apt install cmake
 ```
 
 **Build**
@@ -103,9 +108,16 @@ cp -r ../cfgs/ ./
 |Fast Open Isp|![Open Isp](docs/ISP/fast_detail.png)|Color banding and detail lost|
 |Ours|![Our Detail](docs/ISP/our_sharpen.png)|Detail and boundaries is clear|
 |Fast Open Isp|![Open Isp](docs/ISP/others_sharpen.png)|Color banding and detail lost|
+
+
+# Follow-Up
+
+* Support Dpc, Rns, Cns and other ISP modules;
+* Write ISP tunning GUI tools.
+
 # Project Support
 
-- Thanks for your support, we hope that our project can help your work
+- Thanks for your support, we hope that my project can help your work
 
 ![Appreciation Code](docs/AppreciationCode.png)
 
@@ -115,10 +127,21 @@ Thanks for the following code repository!
 
 |Index|Repo|Language|Notes|
 |-----|-----|------|-----|
+|0|[OpenISP](https://github.com/cruxopen/openISP)|Python|image signale process in C style|
 |1|[fast-openIsp](https://github.com/QiuJueqin/fast-openISP)|Python|open isp speed up verison in python|
 |2|[ISP Lab](https://github.com/yuqing-liu-dut/ISPLab)|C++|Isp realized by c++|
 |3|[xk-ISP](https://github.com/openasic-org/xkISP)|C++|C++ ISP For HLS on FPGA|
 
------
 
-**Eyes of Adas Copyright Reserved @2023**
+
+# Follow Me
+
+**Zhihu：[EYES OF ADAS](https://www.zhihu.com/people/fen-shi-qing-nian-29) | Blog：[EYES OF ADAS](https://jokereyeadas.github.io/) | WeChat：**
+
+**![WeChat](docs/wechat.png)**
+
+
+
+**Eyes of Adas Copyright Reserved @2023, No commercial use without permission**
+
+-----

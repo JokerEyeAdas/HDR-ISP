@@ -11,8 +11,10 @@
 
 #include "common/common.h"
 #include "modules/modules.h"
-#include <opencv2/opencv.hpp>
-#include <opencv2/core.hpp>
+#include "json.hpp"
+#include <fstream>
+
+using json = nlohmann::json;
 
 std::list<std::string> split(const std::string &str, const std::string &pattern)
 {
@@ -34,28 +36,29 @@ std::list<std::string> split(const std::string &str, const std::string &pattern)
     return res;
 }
 
-int ParseCfgFile(const std::string cfg_file_path, IspPrms &isp_prm)
+int ParseIspCfgFile(const std::string cfg_file_path, IspPrms &isp_prm)
 {
 
-    cv::FileStorage fs(cfg_file_path, cv::FileStorage::READ);
+    std::ifstream fs(cfg_file_path);
 
-    if (!fs.isOpened())
+    if (!fs.is_open())
     {
         LOG(ERROR) << cfg_file_path << " open failed";
         return -1;
     }
 
-    cv::FileNode root;
+    json j_root;
+
+    fs >> j_root;
 
     // raw path
-    isp_prm.raw_file = fs["raw_file"].string();
-    isp_prm.out_file_path = fs["out_file_path"].string();
+    isp_prm.raw_file = j_root["raw_file"];
+    isp_prm.out_file_path = j_root["out_file_path"];
     // sensor info
-    root = fs["info"];
-    isp_prm.sensor_name = root["sensor_name"].string();
+    isp_prm.sensor_name = j_root["info"]["sensor_name"];
     LOG(INFO) << "Sensor Name: " << isp_prm.sensor_name;
 
-    auto cfa_str = root["cfa"].string();
+    auto cfa_str = j_root["info"]["cfa"];
     if (cfa_str == "RGGB")
     {
         isp_prm.info.cfa = CfaTypes::RGGB;
@@ -74,7 +77,7 @@ int ParseCfgFile(const std::string cfg_file_path, IspPrms &isp_prm)
     }
     LOG(INFO) << "Sensor CFA: " << cfa_str;
 
-    auto raw_type_str = root["data_type"].string();
+    auto raw_type_str = j_root["info"]["data_type"];
     if (raw_type_str == "RAW10")
     {
         isp_prm.info.dt = RawDataTypes::RAW10;
@@ -93,21 +96,20 @@ int ParseCfgFile(const std::string cfg_file_path, IspPrms &isp_prm)
     }
     LOG(INFO) << "Sensor DT: " << raw_type_str;
 
-    isp_prm.info.bpp = static_cast<int>(root["bpp"].real());
-    int max_bit = int(root["max_bit"].real());
+    isp_prm.info.bpp = static_cast<int>(j_root["info"]["bpp"]);
+    int max_bit = int(j_root["info"]["max_bit"]);
     isp_prm.info.max_val = (1 << max_bit) - 1;
-    isp_prm.info.width = static_cast<int>(root["width"].real());
-    isp_prm.info.height = static_cast<int>(root["height"].real());
-    isp_prm.info.mipi_packed = static_cast<int>(root["mipi_packed"].real());
+    isp_prm.info.width = static_cast<int>(j_root["info"]["width"]);
+    isp_prm.info.height = static_cast<int>(j_root["info"]["height"]);
+    isp_prm.info.mipi_packed = static_cast<int>(j_root["info"]["mipi_packed"]);
     LOG(INFO) << "Sensor Resolution: " << isp_prm.info.width << "*" << isp_prm.info.height;
     //
-    root = fs["pipe"];
-    isp_prm.pipe = std::move(split(root.string(), "|"));
+    std::string pipeline = j_root["pipe"];
+    isp_prm.pipe = std::move(split(pipeline, "|"));
     // blc
-    isp_prm.blc = static_cast<int>(fs["blc"].real());
+    isp_prm.blc = j_root["blc"];
     // wbgain
-    root = fs["wb_gain"];
-    auto d65_gains = root["d65_gain"];
+    auto d65_gains = j_root["wb_gain"]["d65_gain"];
     if (d65_gains.size() != 4)
     {
         LOG(ERROR) << "d65 gains size error";
@@ -115,10 +117,10 @@ int ParseCfgFile(const std::string cfg_file_path, IspPrms &isp_prm)
     }
     for (int i = 0; i < d65_gains.size(); ++i)
     {
-        isp_prm.wb_gains.d65_gain[i] = d65_gains[i].real();
-        // LOG(INFO) << "d65" << isp_prm.wb_gains.d65_gain[i];
+        isp_prm.wb_gains.d65_gain[i] = d65_gains[i];
+        //LOG(INFO) << "d65" << isp_prm.wb_gains.d65_gain[i];
     }
-    auto d50_gains = root["d50_gain"];
+    auto d50_gains = j_root["wb_gain"]["d50_gain"];
     if (d50_gains.size() != 4)
     {
         LOG(ERROR) << "d50 gains size error";
@@ -126,15 +128,15 @@ int ParseCfgFile(const std::string cfg_file_path, IspPrms &isp_prm)
     }
     for (int i = 0; i < d50_gains.size(); ++i)
     {
-        isp_prm.wb_gains.d50_gain[i] = d50_gains[i].real();
+        isp_prm.wb_gains.d50_gain[i] = d50_gains[i];
     }
+
     // pwl
-    root = fs["depwl"];
-    isp_prm.depwl_prm.pedestal = root["pedestal"].real();
-    isp_prm.depwl_prm.pwl_nums = root["pwl_nums"].real();
-    auto pwl_x = root["pwl_x"];
-    auto pwl_y = root["pwl_y"];
-    auto pwl_slope = root["slope"];
+    isp_prm.depwl_prm.pedestal = j_root["depwl"]["pedestal"];
+    isp_prm.depwl_prm.pwl_nums = j_root["depwl"]["pwl_nums"];
+    auto pwl_x = j_root["depwl"]["pwl_x"];
+    auto pwl_y = j_root["depwl"]["pwl_y"];
+    auto pwl_slope = j_root["depwl"]["slope"];
     if ((pwl_x.size() != isp_prm.depwl_prm.pwl_nums) || (pwl_y.size() != isp_prm.depwl_prm.pwl_nums) || (pwl_slope.size() != isp_prm.depwl_prm.pwl_nums))
     {
         LOG(ERROR) << "pwl input prms error";
@@ -143,22 +145,20 @@ int ParseCfgFile(const std::string cfg_file_path, IspPrms &isp_prm)
 
     for (int i = 0; i < isp_prm.depwl_prm.pwl_nums; ++i)
     {
-        isp_prm.depwl_prm.x_cood[i] = pwl_x[i].real();
-        isp_prm.depwl_prm.y_cood[i] = pwl_y[i].real();
-        isp_prm.depwl_prm.slope[i] = pwl_slope[i].real();
+        isp_prm.depwl_prm.x_cood[i] = pwl_x[i];
+        isp_prm.depwl_prm.y_cood[i] = pwl_y[i];
+        isp_prm.depwl_prm.slope[i] = pwl_slope[i];
     }
 
     // pwl
-    root = fs["ltm"];
-    isp_prm.ltm_prms.constrast = root["constrast"].real();
-    isp_prm.ltm_prms.in_bits = root["in_bit"].real();
-    isp_prm.ltm_prms.out_bits = root["out_bit"].real();
+    isp_prm.ltm_prms.constrast = j_root["ltm"]["constrast"];
+    isp_prm.ltm_prms.in_bits = j_root["ltm"]["in_bit"];
+    isp_prm.ltm_prms.out_bits = j_root["ltm"]["out_bit"];
 
-    root = fs["rgbgamma"];
-    isp_prm.rgb_gamma.nums = root["gammalut_nums"].real();
-    isp_prm.rgb_gamma.in_bits = root["in_bit"].real();
-    isp_prm.rgb_gamma.out_bits = root["out_bit"].real();
-    auto gamma_curve = root["gammalut"];
+    isp_prm.rgb_gamma.nums = j_root["rgbgamma"]["gammalut_nums"];
+    isp_prm.rgb_gamma.in_bits = j_root["rgbgamma"]["in_bit"];
+    isp_prm.rgb_gamma.out_bits = j_root["rgbgamma"]["out_bit"];
+    auto gamma_curve = j_root["rgbgamma"]["gammalut"];
     if (gamma_curve.size() != isp_prm.rgb_gamma.nums)
     {
         LOG(ERROR) << "rgb gamma input prms error";
@@ -167,14 +167,13 @@ int ParseCfgFile(const std::string cfg_file_path, IspPrms &isp_prm)
 
     for (int i = 0; i < gamma_curve.size(); ++i)
     {
-        isp_prm.rgb_gamma.curve[i] = gamma_curve[i].real();
+        isp_prm.rgb_gamma.curve[i] = gamma_curve[i];
     }
 
-    root = fs["ygamma"];
-    isp_prm.y_gamma.nums = root["gammalut_nums"].real();
-    isp_prm.y_gamma.in_bits = root["in_bit"].real();
-    isp_prm.y_gamma.out_bits = root["out_bit"].real();
-    gamma_curve = root["gammalut"];
+    isp_prm.y_gamma.nums = j_root["ygamma"]["gammalut_nums"];
+    isp_prm.y_gamma.in_bits = j_root["ygamma"]["in_bit"];
+    isp_prm.y_gamma.out_bits = j_root["ygamma"]["out_bit"];
+    gamma_curve = j_root["ygamma"]["gammalut"];
     if (gamma_curve.size() != isp_prm.y_gamma.nums)
     {
         LOG(ERROR) << "y gamma input prms error";
@@ -183,20 +182,16 @@ int ParseCfgFile(const std::string cfg_file_path, IspPrms &isp_prm)
 
     for (int i = 0; i < gamma_curve.size(); ++i)
     {
-        isp_prm.y_gamma.curve[i] = gamma_curve[i].real();
+        isp_prm.y_gamma.curve[i] = gamma_curve[i];
     }
 
-    root = fs["saturation"];
-    isp_prm.sat_prms.rotate_angle = root["rotate_angle"].real();
+    isp_prm.sat_prms.rotate_angle = j_root["saturation"]["rotate_angle"];
 
+    isp_prm.contrast_prms.ratio = j_root["contrast"]["ratio"];
 
-    root = fs["contrast"];
-    isp_prm.contrast_prms.ratio = root["ratio"].real();
+    isp_prm.sharpen_prms.ratio = j_root["sharpen"]["ratio"];
 
-    root = fs["sharpen"];
-    isp_prm.sharpen_prms.ratio = root["ratio"].real();
-
-    fs.release();
+    fs.close();
     LOG(INFO) << "parse exit";
     return 0;
 }

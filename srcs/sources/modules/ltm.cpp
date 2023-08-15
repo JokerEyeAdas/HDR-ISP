@@ -17,7 +17,7 @@ static float g_guass_kernel[kMaxLtmKenerlSize][kMaxLtmKenerlSize];
 static float g_range_kernel[kMaxLtmKenerlSize][kMaxLtmKenerlSize];
 static float g_final_kernel[kMaxLtmKenerlSize][kMaxLtmKenerlSize];
 
-static void bgrToYFast(int32_t *bgr, float *y, float *y_log, int width, int height)
+static void BgrToYFast(int32_t *bgr, float *y, float *y_log, int width, int height)
 {
     int max_y = 0, min = 1000;
 
@@ -189,7 +189,7 @@ static int Ltm(Frame *frame, const IspPrms *isp_prm)
     float max_log_base = 0;
     float min_log_base = 0;
 
-    bgrToYFast(bgr_in, y_val, y_log, frame->info.width, frame->info.height);
+    BgrToYFast(bgr_in, y_val, y_log, frame->info.width, frame->info.height);
 
     BilateralFilter(y_log, bp_log, 9, frame->info.width, frame->info.height,
                     ltm_prms.space_sigma, ltm_prms.range_sigma, max_log_base, min_log_base);

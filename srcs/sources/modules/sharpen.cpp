@@ -10,11 +10,8 @@
  */
 
 /*
-USM锐化公式：
-
-（源图像– w*高斯模糊）/（1-w）
-
-w表示权重（0.1～0.9），默认为0.6
+USM： (src - w * gauss）/（1 - w）
+w: 0.1～0.9, default: 0.6
 */
 #include "modules/modules.h"
 

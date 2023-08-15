@@ -1,9 +1,14 @@
 # Image Signal Process For HDR CMOS Image Sensor
 
-**知乎主页：[ADAS之眼](https://www.zhihu.com/people/fen-shi-qing-nian-29) | 个人网站：[ADAS之眼](https://jokereyeadas.github.io/) | 公众号：**
+# 项目描述
 
-**![公众号](wechat.png)**
 
+**一个使用C++编写的、用于HDR相机的ISP Pipeline**
+
+- ISP模块使用C风格编写
+- 没有其他库依赖
+- 可以在任意嵌入式平台上部署
+- 可以自定义你的pipeline通过json配置
 
 # 默认Pipeline
 
@@ -40,7 +45,7 @@
 ```bash
 #dependencies install(cmake and opencv)
 sudo apt update
-sudo apt install libopencv-dev python3-opencv cmake
+sudo apt install cmake
 ```
 
 **编译**
@@ -104,9 +109,14 @@ cp -r ../cfgs/ ./
 |Ours|![Our Detail](ISP/our_sharpen.png)|锐化效果、细节保留|
 |Fast Open Isp|![Open Isp](ISP/others_sharpen.png)|细节丢失|
 
+# 后续工作
+
+* 支持Dpc、Rns、Cns等ISP模块;
+* GUI ISP调试工具编写。
+
 # 项目支持
 
-- 感谢您的支持，希望我们的项目对您有帮助
+- 感谢您的支持，希望我的项目对您有帮助
 
 ![Appreciation Code](AppreciationCode.png)
 
@@ -116,10 +126,20 @@ cp -r ../cfgs/ ./
 
 |序号|仓库|开发语言|备注|
 |-----|-----|-----|-----|
+|0|[OpenISP](https://github.com/cruxopen/openISP)|Python|image signale process in C style|
 |1|[fast-openIsp](https://github.com/QiuJueqin/fast-openISP)|Python|open isp 快速版本|
 |2|[ISP Lab](https://github.com/yuqing-liu-dut/ISPLab)|C++|C++版本开源ISP|
 |3|[xk-ISP](https://github.com/openasic-org/xkISP)|C++|复旦大学开源HLS ISP|
 
------
 
-**ADAS之眼权利保留@2023**
+# 关注我
+
+
+**知乎主页：[ADAS之眼](https://www.zhihu.com/people/fen-shi-qing-nian-29) | 个人网站：[ADAS之眼](https://jokereyeadas.github.io/) | 公众号：**
+
+**![公众号](wechat.png)**
+
+
+**ADAS之眼权利保留@2023，未经允许，禁止商业用途**
+
+-----
