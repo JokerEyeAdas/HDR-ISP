@@ -1,5 +1,7 @@
 # Image Signal Process For HDR CMOS Image Sensor
 
+**[CH](docs/readme_ch.md) | [EN](./readme.md)**
+
 # 项目描述
 
 
@@ -51,8 +53,8 @@ sudo apt install cmake
 **编译**
 
 ```bash
-git clone https://github.com/JokerEyeAdas/HDRImageSignalProcess
-cd HDRImageSignalProcess/
+git clone https://github.com/JokerEyeAdas/HDR-ISP
+cd HDR-ISP/
 mkdir build
 cmake ..
 make -j12
@@ -69,8 +71,8 @@ make -j12
 **编译**
 
 ```bash
-git clone https://github.com/JokerEyeAdas/HDRImageSignalProcess
-code HDRImageSignalProcess
+git clone https://github.com/JokerEyeAdas/HDR-ISP
+code HDR-ISP
 #cmake 选择 Debug or Release
 #compiler 选择 xxx-amd64
 #build all
