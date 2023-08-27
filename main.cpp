@@ -31,11 +31,9 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    IspInit();
-    ShowAllIspModules();
-
     IspPipeline pipeline;
     IspPrms isp_prms;
+
 
     auto ret = ParseIspCfgFile(argv[1], isp_prms);
     if (ret)

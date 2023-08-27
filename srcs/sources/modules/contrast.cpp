@@ -1,12 +1,10 @@
 /**
  * @file contrast.cpp
  * @author joker.mao (joker_mao@163.com)
- * @brief
+ * @brief contrast improve
  * @version 0.1
  * @date 2023-08-12
- *
  * Copyright (c) of ADAS_EYES 2023
- *
  */
 
 #include "modules/modules.h"

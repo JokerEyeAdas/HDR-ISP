@@ -1,12 +1,10 @@
 /**
  * @file blc.cpp
  * @author joker.mao (joker_mao@163.com)
- * @brief 
+ * @brief black level correct
  * @version 0.1
  * @date 2023-07-27
- * 
  * @copyright Copyright (c) 2023
- * 
  */
 
 #include "modules/modules.h"

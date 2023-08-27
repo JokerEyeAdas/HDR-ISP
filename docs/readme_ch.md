@@ -1,6 +1,6 @@
 # Image Signal Process For HDR CMOS Image Sensor
 
-**[CH](docs/readme_ch.md) | [EN](./readme.md)**
+**[EN](../readme.md) | [CH](./readme_ch.md)**
 
 # 项目描述
 
@@ -21,8 +21,8 @@
 - Raw Domain
     - [x] MipiUnPack: mipi raw data unpack to raw16
     - [x] DePwl: decode the pwl curve
-    - [ ] Dpc: dynamic pixel correct
-    - [ ] Lsc: lens shding correct
+    - [x] Dpc: dynamic pixel correct
+    - [x] Lsc: lens shding correct
     - [x] Blc: black level correct
     - [ ] Rns: raw noise filter
     - [x] WbGain: white balance gain
@@ -36,7 +36,7 @@
     - [x] YGamma: gray gamma curve
     - [x] Contrast: gray contrast adjust
     - [x] Sharpen: gray usm sharpen
-    - [ ] Cns: chrome noise filter
+    - [x] Cns: chrome noise filter
     - [x] Saturation: chrome saturation
     - [x] Yuv2Rgb: yuv domain to rgb domain
 

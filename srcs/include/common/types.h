@@ -185,4 +185,40 @@ struct SharpenPrms
     float ratio;
 };
 
+
+static constexpr int kLscMeshBoxHNums = 10;
+static constexpr int kLscMeshBoxVNums = 9;
+static constexpr int kLscMeshPointHNums = kLscMeshBoxHNums + 1;
+static constexpr int kLscMeshPointVNums = kLscMeshBoxVNums + 1;
+
+struct LscPrms
+{
+    float mesh_r[kLscMeshPointVNums][kLscMeshPointHNums];
+    float mesh_gr[kLscMeshPointVNums][kLscMeshPointHNums];
+    float mesh_gb[kLscMeshPointVNums][kLscMeshPointHNums];
+    float mesh_b[kLscMeshPointVNums][kLscMeshPointHNums];
+
+    LscPrms()
+    {
+        for (int idy = 0; idy < kLscMeshPointVNums; ++idy) {
+            for (int idx = 0; idx < kLscMeshPointHNums; ++idx) {
+                mesh_r[idy][idx] = 1;
+                mesh_gr[idy][idx] = 1;
+                mesh_gb[idy][idx] = 1;
+                mesh_b[idy][idx] = 1;
+            }
+        }
+    }
+};
+
+enum class DpcMode { 
+    MEAN,
+    GRADIENT
+}; 
+struct DpcPrms
+{
+    int thres = 30;
+    DpcMode mode = DpcMode::GRADIENT;
+};
+
 #endif

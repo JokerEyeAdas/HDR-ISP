@@ -26,6 +26,8 @@ struct IspPrms
     SaturationPrms sat_prms;
     ContrastPrms contrast_prms;
     SharpenPrms sharpen_prms;
+    LscPrms lsc_prms;
+    DpcPrms dpc_prms;
 };
 
 struct IspModule
@@ -62,5 +64,9 @@ void RegisterRgb2YuvMod();
 void RegisterSaturationMod();
 void RegisterContrastMod();
 void RegisterSharpenMod();
+void RegisterLscMod();
+void RegisterDpcMod();
+void RegisterDpcMod();
+void RegisterCnsMod();
 
 #endif
