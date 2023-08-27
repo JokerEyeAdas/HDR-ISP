@@ -191,6 +191,44 @@ int ParseIspCfgFile(const std::string cfg_file_path, IspPrms &isp_prm)
 
     isp_prm.sharpen_prms.ratio = j_root["sharpen"]["ratio"];
 
+    isp_prm.dpc_prms.thres = j_root["dpc"]["thres"];
+
+    std::string dpc_mode =  j_root["dpc"]["mode"];
+    if (dpc_mode == "mean") {
+        isp_prm.dpc_prms.mode = DpcMode::MEAN;
+    } else {
+        isp_prm.dpc_prms.mode = DpcMode::GRADIENT;
+    }
+    
+    if ((j_root["lsc"]["mesh_width_nums"] != kLscMeshPointHNums)
+        || (j_root["lsc"]["mesh_height_nums"] != kLscMeshPointVNums)) {
+        LOG(ERROR) << "lsc config prms error";
+        return -1;
+    }
+
+
+    auto lsc_data_arr = j_root["lsc"]["data"];
+    if (lsc_data_arr.size() != kLscMeshPointVNums) {
+        LOG(ERROR) << "lsc config lsc_data_arr error";
+        return -1;
+    }
+
+    for (int idy = 0; idy < kLscMeshPointVNums; ++idy) {
+        auto arr = lsc_data_arr[idy];
+        if (arr.size() != kLscMeshPointHNums) {
+            LOG(ERROR) << "lsc config lsc_data_arr error";
+            return -1;
+        }
+        for (int idx = 0; idx < kLscMeshPointHNums; ++idx) {
+            //first verison, use one prm
+            isp_prm.lsc_prms.mesh_b[idy][idx] = arr[idx];
+            isp_prm.lsc_prms.mesh_gr[idy][idx] = arr[idx];
+            isp_prm.lsc_prms.mesh_gb[idy][idx] = arr[idx];
+            isp_prm.lsc_prms.mesh_r[idy][idx] = arr[idx];
+        }
+    }
+
+
     fs.close();
     LOG(INFO) << "parse exit";
     return 0;

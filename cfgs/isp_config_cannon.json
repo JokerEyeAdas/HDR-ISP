@@ -11,38 +11,41 @@
         "height": 4044,
         "mipi_packed": 0
     },
-    "pipe": "unpack|depwl|blc|wbgain|demoasic|ccm|ltm|rgbgamma|rgb2yuv|ygamma|contrast|sharpen|saturation|yuv2rgb",
+    "pipe": "unpack|depwl|lsc|dpc|blc|wbgain|demoasic|ccm|ltm|rgbgamma|rgb2yuv|ygamma|contrast|sharpen|cns|saturation|yuv2rgb",
     "blc": 0,
     "lsc": {
-        "mesh_width": 10,
-        "mesh_height": 9,
+        "mesh_width_nums": 11,
+        "mesh_height_nums": 10,
         "data": [
             [
-                1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
             ],
             [
-                1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
             ],
             [
-                1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
             ],
             [
-                1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
             ],
             [
-                1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
             ],
             [
-                1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
             ],
             [
-                1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
             ],
             [
-                1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
             ],
             [
-                1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+            ],
+            [
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
             ]
         ]
     },
@@ -211,5 +214,9 @@
     "sharpen": {
         "enable": true,
         "ratio": 0.6
+    },
+    "dpc": {
+        "thres": 30,
+        "mode": "gradient"
     }
 }

@@ -28,29 +28,32 @@ static int Cns(Frame *frame, const IspPrms *isp_prm)
     uint8_t u[25];
     uint8_t v[25];
 
-
     FOR_ITER(ih, frame->info.height)
     {
         FOR_ITER(iw, frame->info.width)
         {
-            //pixel_idx = h * frame->info.width + w;
-            if ((iw < 2) || iw > (frame->info.width - 1) || (ih < 2) || (ih > (frame->info.height - 2))) {
+            int pixel_idx = ih * frame->info.width + iw;
+            if ((iw < 2) || (iw >= (frame->info.width - 2)) || (ih < 2) || (ih >= (frame->info.height - 2))) {
+                u_o[pixel_idx] = u_i[pixel_idx];
+                v_o[pixel_idx] = v_i[pixel_idx];
                 continue;
             }
-            int index = 0;
+
+            int sub_index = 0;
             for (int idy = -2; idy < 2; ++idy) {
                 for (int idx = -2; idx < 2; ++idx) {
-                    int pixel_idx = GET_PIXEL_INDEX((iw + idx), (ih + idy), frame->info.width);
-                    u[index] = u_i[pixel_idx];
-                    v[index] = v_i[pixel_idx];
-
-                    std::sort(u, u + 25);
-                    std::sort(v, v + 25);
-                    
-                    u_o[pixel_idx] = u[25 / 2];
-                    v_o[pixel_idx] = v[25 / 2];
+                    int filer_pixel_idx = GET_PIXEL_INDEX((iw + idx), (ih + idy), frame->info.width);
+                    // it is too slow!!!
+                    u[sub_index] = u_i[filer_pixel_idx];
+                    v[sub_index] = v_i[filer_pixel_idx];
+                    ++sub_index;
                 }
             }
+            std::sort(u, u + 25);
+            std::sort(v, v + 25);
+                
+            u_o[pixel_idx] = u[12];
+            v_o[pixel_idx] = v[12];
         }
     }
 
