@@ -16,6 +16,13 @@ static inline void SwapMem(_T *&a, _T *&b)
 }
 
 template <class _T>
+static inline _T Min(_T a, _T b)
+{
+    return (a > b ? b : a);
+}
+
+
+template <class _T>
 static inline void ClipMinMax(_T &a, _T max, _T min)
 {
     if (a > max)

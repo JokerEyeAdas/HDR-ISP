@@ -71,10 +71,10 @@ static int Dpc(Frame *frame, const IspPrms *isp_prm)
                     int ddl = abs(2 * p0 - p1 - p8);
                     int ddr = abs(2 * p0 - p3 - p6);
 
-                    int dvh_min = std::min(dv, dh);
-                    int dlr_min = std::min(ddl, ddr);
+                    int dvh_min = Min<int>(dv, dh);
+                    int dlr_min = Min<int>(ddl, ddr);
 
-                    int min_val = std::min(dvh_min, dlr_min);
+                    int min_val = Min<int>(dvh_min, dlr_min);
                     //choose the fat border pixel and get mean of them
                     if (min_val == dv) {
                         raw32_out[pixel_idx] = (p2 + p7 + 1) >> 1;
