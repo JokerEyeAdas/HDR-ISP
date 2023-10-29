@@ -9,14 +9,17 @@
 
 - ISP模块使用C风格编写
 - 没有其他库依赖
-- 可以在任意嵌入式平台上部署
+- ~~可以在任意嵌入式平台上部署~~
+- 可以在支持Cuda的设备上运行，如PC、英伟达Jeston系列嵌入式芯片
 - 可以自定义你的pipeline通过json配置
+- 可以通过修改配置使ISP运行在CPU或者GPU上
+- 支持ROS2在线处理图像以及离线处理RAW图像
 
 # 默认Pipeline
 
 ![Pipeline](pipeline.png)
 
-# 支持的ISP模块列表
+# 支持的ISP模块列表(CPU以及GPU均支持)
 
 - Raw Domain
     - [x] MipiUnPack: mipi raw data unpack to raw16
@@ -43,39 +46,82 @@
 # 如何编译与运行
 
 ## Linux系统
-**开发环境:** 
-```bash
-#dependencies install(cmake and opencv)
-sudo apt update
-sudo apt install cmake
-```
+**开发环境 :** 
+* nvcc
+* cmake
+* g++
 
 **编译**
 
+- **不使用ROS2**
 ```bash
 git clone https://github.com/JokerEyeAdas/HDR-ISP
 cd HDR-ISP/
+git checkout gpu_dev
 mkdir build
 cmake ..
 make -j12
 ```
-## Windows系统
+- **使用ROS2编译**
+1. 克隆仓库
+```bash
+git clone https://github.com/JokerEyeAdas/HDR-ISP
+cd HDR-ISP/
+git checkout gpu_dev
+```
 
-**开发环境(x64):** 
+2. 编辑 CMakeLists.txt，设置ROS2_ENABLE成true
+```CMakeLists.txt
+set(ROS2_ENABLE true)
+```
+
+3. 编译
+
+```bash
+cd ${ros2_wk}
+colcon build
+```
+
+## Windows
+
+**开发环境 (x64):** 
 - vs code
 - cmake
+- nvcc
 - vs2019 c++ gen tool
 
-![build tool](compile.png) 
+![build tool](./compile.png) 
 
 **编译**
+
+- **不使用 ROS2**
 
 ```bash
 git clone https://github.com/JokerEyeAdas/HDR-ISP
 code HDR-ISP
-#cmake 选择 Debug or Release
-#compiler 选择 xxx-amd64
+git checkout gpu_dev
+#cmake choose Debug or Release
+#compiler choose xxx-amd64
 #build all
+```
+
+- **使用ROS2**
+
+1. 克隆仓库
+```bash
+git clone https://github.com/JokerEyeAdas/HDR-ISP
+cd HDR-ISP/
+git checkout gpu_dev
+```
+2. 编辑CMakeLists.txt设置ROS2_ENABLE为true
+```CMakeLists.txt
+set(ROS2_ENABLE true)
+```
+3. 编译
+
+```bash
+cd ${ros2_wk}
+colcon build --merge-install
 ```
 
 ## 运行
@@ -88,14 +134,42 @@ cp -r ../cfgs/ ./
 #run isp
 ./HDR_ISP ./cfgs/isp_config_cannon.json
 ```
+
+## 改变模式以及运行设备
+
+- 使用GPU加速
+
+通过Json进行配置:
+```json
+    "device":"gpu",
+```
+
+- 使用CPU加速
+
+通过Json进行配置:
+```json
+    "device":"cpu",
+```
+
+- ROS2实时处理模式以及修改Topic
+```json
+    "mode":"online",
+    "topic":"/raw/connan",
+```
+
+- 离线处理RAW图
+```json
+    "mode":"offline",
+    "raw_file": "./data/connan_raw14.raw",
+    "out_file_path": "./",
+```
+
 ## 如何调试参数
 
 **通过修改json配置来配置ISP模块的基本参数**
 
 如，修改sensor基本参数：
 ```json
-    "raw_file": "./data/connan_raw14.raw",
-    "out_file_path": "./",
     "info": {
         "sensor_name": "cannon",
         "cfa": "RGGB",
@@ -151,14 +225,41 @@ cp -r ../cfgs/ ./
 |Ours|![Our Detail](ISP/our_detail.png)|![Our Detail](ISP/our_sharpen.png)|细节与边界明显保留|
 |Fast Open Isp|![Open Isp](ISP/fast_detail.png)|![Open Isp](ISP/others_sharpen.png)|细节丢失以及Color banding|
 
+
+## 使用ROS以及GPU
+
+- GPU性能(不发布ISP 处理结果)
+
+|Index|Resolution|Fps|
+|----|-----|----|
+|1|6080*4044|15|
+|2|3840*2160|40|
+|3|1920*1080|125|
+
+- ROS2 Online mode
+  
+![ROS2](./ros2_online.png)
+
+
 # 后续工作
 
-* 支持Dpc、Rns、Cns等ISP模块;
-* GUI ISP调试工具编写。
+## TBD
 
-# 项目支持
+* 编写Python或者GUI调试工具
 
-- 感谢您的支持，希望我的项目对您有帮助
+## 资料获取
+- 如果想学习源码、获取模块说明，请加入星球，我们共同开发！
+  
+![knowledge](./knowledge.png)
+
+- 加入星球:
+
+![知识星球](./xingqiu.jpg)
+
+
+## 项目支持
+
+- 感谢您的支持，希望我的项目对您有帮助~
 
 ![Appreciation Code](AppreciationCode.png)
 
@@ -182,6 +283,6 @@ cp -r ../cfgs/ ./
 **![公众号](wechat.png)**
 
 
-**ADAS之眼权利保留@2023，未经允许，禁止商业用途**
+**ADAS之眼权利保留@2023，未经允许禁止商业用途**
 
 -----

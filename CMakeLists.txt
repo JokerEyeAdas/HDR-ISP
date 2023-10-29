@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(hdr_isp)
 
+#change it be true if you want run on ros
 set(ROS2_ENABLE false)
 
 find_package(CUDA REQUIRED)

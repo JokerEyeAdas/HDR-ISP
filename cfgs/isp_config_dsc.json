@@ -1,6 +1,9 @@
 {
+    "device":"gpu",
+    "mode":"offline",
+    "topic":"/raw/dsc",
     "raw_file": "./data/DSC_1339_768x512_rggb.raw",
-    "out_file_path": "./",
+    "out_file_path": "./data/",
     "info": {
         "sensor_name": "dsc",
         "cfa": "RGGB",
@@ -12,6 +15,7 @@
         "mipi_packed": 0
     },
     "pipe": "unpack|depwl|lsc|dpc|blc|wbgain|demoasic|ccm|ltm|rgbgamma|rgb2yuv|ygamma|contrast|sharpen|cns|saturation|yuv2rgb",
+    "pipe1": "unpack|depwl|lsc|dpc|blc|wbgain|demoasic|ccm|ltm|rgbgamma|rgb2yuv|ygamma|contrast|sharpen|cns|saturation|yuv2rgb",
     "blc": 600,
     "lsc": {
         "mesh_width_nums": 11,
@@ -144,7 +148,10 @@
     "ltm": {
         "in_bit": 14,
         "out_bit": 10,
-        "constrast": 136
+        "constrast": 136,
+        "kernel_size": 7,
+        "range_sigma":0.4,
+        "space_sigma":10
     },
     "rgbgamma": {
         "enable": true,
