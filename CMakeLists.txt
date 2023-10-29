@@ -1,48 +1,76 @@
-cmake_minimum_required (VERSION 3.0)
+cmake_minimum_required(VERSION 3.5)
+project(hdr_isp)
 
-project(HDR_ISP)
+set(ROS2_ENABLE false)
 
-#if (${CMAKE_SYSTEM_NAME} STREQUAL  "Windows")
-    #message(STATUS "set opencv dir to thirdparty")
-    #set(OpenCV_DIR "thirdparty/opencv") 
-#endif()
-#find_package(OpenCV REQUIRED)
-#message(STATUS "opencv inc path " ${OpenCV_INCLUDE_DIRS})
+find_package(CUDA REQUIRED)
+
+message(STATUS "Cuda Verison: " ${CUDA_VERSION_STRING})
+
+include_directories(${CUDA_LNCLUDE_DIRS})
+
+# Default to C++14
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 14)
+endif()
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
+if (ROS2_ENABLE)
+  add_definitions(-DROS2_SUPPORT=1)
+  find_package(ament_cmake REQUIRED)
+  find_package(rclcpp REQUIRED)
+  find_package(rclcpp_components)
+  find_package(std_msgs REQUIRED)
+  find_package(sensor_msgs REQUIRED)
+endif()
 
 include_directories(thirdparty/easylog)
 include_directories(thirdparty/easybmp)
 include_directories(thirdparty/json/nlohmann)
-include_directories(srcs/include)
+include_directories(libs/include)
 
 add_subdirectory(thirdparty/easylog)
 add_subdirectory(thirdparty/easybmp)
-add_subdirectory(srcs)
+#add_subdirectory(srcs)
 
-
-#aux_source_directory(srcs/sources/modules/ ISP_MOD_SRCS_LISTS)
-#aux_source_directory(srcs/sources/common/  ISP_COM_SRCS_LISTS)
-#add_subdirectory(sources/)
+if (CMAKE_HOST_SYSTEM_NAME MATCHES "Linux")
+  message(STATUS "system is linux")
+  link_directories(libs/linux)
+else(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
+  message(STATUS "system is windows")
+  link_directories(libs/win)
+endif()
 
 set (
     SRCS
-    main.cpp
-    parse.cpp
+    hdr_isp_main.cpp
+    hdr_isp_parse.cpp
+    hdr_isp_node.cpp
 )
 
-message(STATUS "sources lists " ${SRCS})
-
-add_executable (${PROJECT_NAME} ${SRCS})
-
-#remove opencv depend
-#include_directories(${OpenCV_INCLUDE_DIRS})
-#link_directories(${OpenCV_LIBRARY_DIRS})
-#${OpenCV_LIBS}
+cuda_add_executable (hdr_isp ${SRCS})
 target_link_libraries(${PROJECT_NAME}  easylog easybmp modules)
 
+add_executable(pub_raw ./tools/cpp/pub_raw_tool.cpp)
+target_link_libraries(pub_raw  easylog)
 
+if (ROS2_ENABLE)
 
+  ament_target_dependencies(hdr_isp rclcpp std_msgs sensor_msgs rclcpp_components)
+  ament_target_dependencies(pub_raw rclcpp std_msgs sensor_msgs rclcpp_components)
 
+  install(TARGETS
+    hdr_isp
+    pub_raw
+    DESTINATION lib/${PROJECT_NAME})
 
+  if(BUILD_TESTING)
+    find_package(ament_lint_auto REQUIRED)
+    ament_lint_auto_find_test_dependencies()
+  endif()
 
-
-
+  ament_package()
+endif()
