@@ -30,10 +30,10 @@ static void UnpackRaw10ToRaw16(uint8_t *raw, uint16_t *unpack_raw16, int width, 
     {
         raw10_packed_in = raw + p1;
         raw16_unpacked_out = unpack_raw16 + p2;
-        raw16_unpacked_out[0] = ((uint16_t)raw10_packed_in[0] << 2) | (((uint16_t)raw10_packed_in[5] >> 6) & 0x03);
-        raw16_unpacked_out[1] = ((uint16_t)raw10_packed_in[1] << 2) | (((uint16_t)raw10_packed_in[5] >> 4) & 0x03);
-        raw16_unpacked_out[2] = ((uint16_t)raw10_packed_in[2] << 2) | (((uint16_t)raw10_packed_in[5] >> 2) & 0x03);
-        raw16_unpacked_out[3] = ((uint16_t)raw10_packed_in[3] << 2) | (((uint16_t)raw10_packed_in[5] >> 0) & 0x03);
+        raw16_unpacked_out[0] = ((uint16_t)raw10_packed_in[0] << 2) | (((uint16_t)raw10_packed_in[4] >> 6) & 0x03);
+        raw16_unpacked_out[1] = ((uint16_t)raw10_packed_in[1] << 2) | (((uint16_t)raw10_packed_in[4] >> 4) & 0x03);
+        raw16_unpacked_out[2] = ((uint16_t)raw10_packed_in[2] << 2) | (((uint16_t)raw10_packed_in[4] >> 2) & 0x03);
+        raw16_unpacked_out[3] = ((uint16_t)raw10_packed_in[3] << 2) | (((uint16_t)raw10_packed_in[4] >> 0) & 0x03);
     }
 }
 /**

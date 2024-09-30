@@ -128,7 +128,7 @@ struct DePwlPrms
     int pedestal;
     int x_cood[MAX_PWL_NUMS];
     int y_cood[MAX_PWL_NUMS];
-    int slope[MAX_PWL_NUMS];
+    float slope[MAX_PWL_NUMS];
 };
 
 struct CcmPrms

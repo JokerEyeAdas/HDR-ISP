@@ -41,8 +41,8 @@ static int Depwl(Frame *frame, const IspPrms *isp_prm)
                 return -1;
             }
             //y = slope * (Xn - Xn-1) + Yn-1
-            raw32_out[pixel_idx] = (raw16_in[pixel_idx] - pwl_prm->x_cood[pwl_idx - 1]) * pwl_prm->slope[pwl_idx] \
-                                 + pwl_prm->y_cood[pwl_idx - 1];
+            raw32_out[pixel_idx] = (int32_t)((raw16_in[pixel_idx] - pwl_prm->x_cood[pwl_idx - 1]) * pwl_prm->slope[pwl_idx] \
+                                 + pwl_prm->y_cood[pwl_idx - 1]);
 
             ClipMinMax(raw32_out[pixel_idx], isp_prm->info.max_val, 0);
         }

@@ -11,7 +11,7 @@
         "height": 512,
         "mipi_packed": 0
     },
-    "pipe": "unpack|depwl|lsc|dpc|blc|wbgain|demoasic|ccm|ltm|rgbgamma|rgb2yuv|ygamma|contrast|sharpen|cns|saturation|yuv2rgb",
+    "pipe": "unpack|depwl|blc|lsc|dpc|wbgain|demoasic|ccm|ltm|rgbgamma|rgb2yuv|ygamma|contrast|sharpen|cns|saturation|yuv2rgb",
     "blc": 600,
     "lsc": {
         "mesh_width_nums": 11,
