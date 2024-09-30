@@ -7,11 +7,12 @@
 
 
 **An ISP pipeline written in C++ for HDR cameras**
-
 - The ISP modules are written in C style
 - Without other library dependencies
 - Can be deployed various embedded platforms
 - Customize your pipeline through json configuration
+
+`The Isp support run on GPU(on branch gpu_dev)`
 
 # Default Pipeline
 
