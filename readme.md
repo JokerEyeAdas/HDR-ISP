@@ -57,6 +57,7 @@ sudo apt install cmake
 git clone https://github.com/JokerEyeAdas/HDR-ISP
 cd HDR-ISP/
 mkdir build
+cd build
 cmake ..
 make -j12
 ```
@@ -172,6 +173,7 @@ Thanks for the following code repository!
 |1|[fast-openIsp](https://github.com/QiuJueqin/fast-openISP)|Python|open isp speed up verison in python|
 |2|[ISP Lab](https://github.com/yuqing-liu-dut/ISPLab)|C++|Isp realized by c++|
 |3|[xk-ISP](https://github.com/openasic-org/xkISP)|C++|C++ ISP For HLS on FPGA|
+|4|[Infinite-ISP](https://github.com/10x-Engineers/Infinite-ISP)|Python/RTL|A complete ISP suite (Algo/RTL/FPGA/TuningTool) for ISP development|
 
 
 
